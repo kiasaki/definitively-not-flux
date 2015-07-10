@@ -80,3 +80,86 @@ module.exports = function(subject) {
 ```js
 
 ```
+
+## Example app
+
+`actions.js`
+
+```js
+var action = require('./action');
+
+module.exports = {
+  addTodo: action.create();
+};
+```
+
+`stores/todo.js`
+
+```js
+var observable = require('../lib/observable');
+var actions = require('../actions');
+
+function TodoStore() {
+  this.todos = [];
+
+  observable(this);
+  actions.addTodo.listen(this.onAddTodo);
+};
+
+TodoStore.prototype.todos = function() {
+  return this.todos;
+};
+
+TodoStore.prototype.onAddTodo = function(todo) {
+  this.todos.push(todo);
+};
+
+module.exports = new TodoStore();
+```
+
+`components/todo.js`
+
+```js
+var actions = require('../actions');
+var todoStore = require('../stores/todo');
+
+var Todo = React.createClass({
+  getInitialState: function() {
+    return {text: '', todos: todoStore.todos()};
+  },
+  componentWillMount: function() {
+    store.on('change', this.onChange);
+  },
+  componentWillUnmount: function() {
+    store.off('change', this.onChange);
+  },
+  onChange: function() {
+    this.setState({todos: todoStore.todos()});
+  },
+  handleTextChange: function(event) {
+    this.setState({text: event.target.value});
+  },
+  handleSubmit: function(event) {
+    event.preventDefault();
+    actions.addTodo({label: this.state.text});
+    this.setState({text: ''});
+  },
+  render: function() {
+    return (
+      <div>
+        <ul>{
+          this.state.todos.map(function(todo, i) {
+            return <TodoEntry key={i} todo={todo} />;
+          })
+        }</ul>
+        <form onSubmit={this.handleSubmit}>
+          <input type="text" onchange={this.handleTextChange} />
+          <input type="submit" value="Add" />
+        </form>
+      </div>
+    );
+  }
+});
+
+React.renderComponent(<Todo />, document.querySelector('#app'));
+```
