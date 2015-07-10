@@ -9,7 +9,7 @@ into your React.js project.
 The first things needed is some way of _listening_ and _emiting_ events as thats
 exactly what our actions, stores and router will be doing left and right.
 
-`observable.js (60 lines)`
+`lib/observable.js (60 lines)`
 
 ```js
 function isFunction(obj) {
@@ -75,10 +75,28 @@ module.exports = function(subject) {
 };
 ```
 
-## Actions
+## Action
+
+Actions is the way your views can trigger data fetching or, more generally, make
+stores do some work, ultimately triggering "change" events flowing back to views.
+
+`lib/action.js (14 lines)`
 
 ```js
+var observable = require('./observable');
 
+module.exports = function() {
+  var events = {};
+  observable(events);
+
+  function action() {
+    events.trigger.apply(null, ['action'].concat(arguments));
+  }
+  action.listen = function(fn) {
+    events.on('action', fn);
+  };
+  return action;
+};
 ```
 
 ## Example app
@@ -86,7 +104,7 @@ module.exports = function(subject) {
 `actions.js`
 
 ```js
-var action = require('./action');
+var action = require('./lib/action');
 
 module.exports = {
   addTodo: action.create();
