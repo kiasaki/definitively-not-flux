@@ -99,6 +99,56 @@ module.exports = function() {
 };
 ```
 
+## Router
+
+The missing piece to make a complete app is a router. Most apps have more that
+one page right?
+
+`lib/router.js (39 lines)`
+
+```js
+var observable = require('./observable');
+
+function parser(path) {
+  return path.split('/');
+}
+
+function Router() {
+  this.started = false;
+  this.current = null;
+  observable(this);
+}
+
+Router.prototype.route = function(arg) {
+  if (arg[0]) { // string
+    window.location.hash = arg;
+    this.emit(arg);
+  } else { // function
+    this.on('H', arg);
+  } 
+};
+
+Router.prototype.emit = function(path) {
+  if (path.type) path = window.location.href.split('#')[1] || '';
+  if (path != this.current) {
+    this.trigger.apply(null, ['H'].concat(parser(path)));
+    this.current = path;
+  }
+};
+
+Router.prototype.start = function() {
+  if (this.started) return;
+  if (window.addEventListener) {
+    win.addEventListener('hashchange', this.emit, false);
+  } else {
+    win.attachEvent('onhashchange', this.emit);
+  }
+  this.started = true;
+};
+
+module.exports = Router;
+```
+
 ## Example app
 
 `actions.js`
@@ -181,3 +231,8 @@ var Todo = React.createClass({
 
 React.renderComponent(<Todo />, document.querySelector('#app'));
 ```
+
+## Credits
+
+Heavy inspiration comes from [Riot.js](https://muut.com/riotjs/api/) as for
+the observable and router files.
