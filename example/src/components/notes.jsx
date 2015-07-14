@@ -3,6 +3,7 @@ var React = require('react');
 var actions = require('../actions');
 var router = require('../router');
 
+var Layout = require('./layout.jsx');
 var notesStore = require('../stores/notes');
 
 var Notes = React.createClass({
@@ -28,14 +29,13 @@ var Notes = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <h1>Notes</h1>
+      <Layout>
         <ul>{
           this.state.notes.map(function(todo, i) {
             return <TodoEntry key={i} todo={todo} />;
           })
         }</ul>
-      </div>
+      </Layout>
     );
   }
 });

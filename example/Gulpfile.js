@@ -11,6 +11,7 @@ var streamify = require('gulp-streamify');
 
 var path = {
   HTML: 'src/index.html',
+  CSS: 'src/styles/main.css',
   MINIFIED_OUT: 'build.min.js',
   OUT: 'build.js',
   DEST: 'dist',
@@ -22,10 +23,12 @@ var path = {
 gulp.task('copy', function(){
   gulp.src(path.HTML)
     .pipe(gulp.dest(path.DEST));
+  gulp.src(path.CSS)
+    .pipe(gulp.dest(path.DEST));
 });
 
 gulp.task('watch', function() {
-  gulp.watch(path.HTML, ['copy']);
+  gulp.watch([path.HTML, path.CSS], ['copy']);
 
   var watcher  = watchify(browserify({
     entries: [path.ENTRY_POINT],

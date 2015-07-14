@@ -1,0 +1,44 @@
+html, body {
+  font-size: 18px;
+  font-family: sans-serif;
+  margin: 0;
+  background: #fafafa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app__header {
+  background: #fff;
+  box-shadow: 0 0 5px rgba(0,0,0,0.4);
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  height: 60px;
+}
+
+.app__header .header__logo {
+  line-height: 40px;
+  margin: 0;
+  font-size: 22px;
+  font-weight: 300;
+}
+
+.app__sidebar {
+  background: #fff;
+  box-shadow: 0 0 5px rgba(0,0,0,0.4);
+  position: fixed;
+  top: 60px;
+  bottom: 0;
+  left: 0;
+  width: 300px;
+}
+
+.app__content {
+  margin-top: 60px;
+  margin-left: 300px;
+}
