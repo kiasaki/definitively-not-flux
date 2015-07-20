@@ -10,7 +10,7 @@ html, body {
 }
 
 .app__header {
-  background: #fff;
+  background: #7B1FA2;
   box-shadow: 0 0 5px rgba(0,0,0,0.4);
   z-index: 2;
   position: fixed;
@@ -26,6 +26,7 @@ html, body {
   margin: 0;
   font-size: 22px;
   font-weight: 300;
+  color: #fff;
 }
 
 .app__sidebar {
@@ -36,6 +37,21 @@ html, body {
   bottom: 0;
   left: 0;
   width: 300px;
+}
+
+.app__sidebar .sidebar__nav {
+  padding: 15px 0;
+}
+.app__sidebar .sidebar__nav a {
+  display: block;
+  line-height: 35px;
+  padding: 10px 20px;
+  color: #222;
+  text-decoration: none;
+  transition: background 200ms;
+}
+.app__sidebar .sidebar__nav a:hover {
+  background: #fafafa;
 }
 
 .app__content {

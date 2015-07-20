@@ -9,7 +9,7 @@ var Layout = React.createClass({
         </header>
 
         <aside className="app__sidebar">
-          <nav>
+          <nav className="sidebar__nav">
             <a href="#">All notes</a>
             <a href="#/new">New note</a>
           </nav>
